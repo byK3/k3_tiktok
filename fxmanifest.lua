@@ -1,3 +1,4 @@
+```
 fx_version 'cerulean'
 game 'gta5'
 
@@ -6,7 +7,7 @@ description "K3 TIKTOK COMMAND"
 version '1.0.0'
 
 
-shared_script 'language.lua'
+shared_script {'config.lua', 'language.lua'}
 
 client_scripts {
     'client/*',
@@ -20,3 +21,4 @@ server_scripts {
     'config.lua',
     'discord-config.lua',
 }
+```
