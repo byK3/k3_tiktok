@@ -1,4 +1,3 @@
-
 --[[
 ██████   █████  ████████  █████  ██████   █████  ███████ ███████ 
 ██   ██ ██   ██    ██    ██   ██ ██   ██ ██   ██ ██      ██      
@@ -131,6 +130,17 @@ function K3.Functions.PlayerName (src)
     elseif Config.Framework == "esx" then
         local name = xPlayer.getName()
         return name
+    end
+end
+
+function K3.Functions.GetPlayerGroup (src)
+    local xPlayer = K3.Functions.GetPlayer(src)
+    if Config.Framework == "qbcore" then
+        local group = xPlayer.Functions.GetPermission
+        return group
+    elseif Config.Framework == "esx" then
+        local group = xPlayer.getGroup()
+        return group
     end
 end
 
