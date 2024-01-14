@@ -17,6 +17,6 @@ server_scripts {
     -- '@oxmysql/lib.lua',
     -- '@ghmattimysql/lib.lua',
     'server/*',
-    'config.lua',
     'discord-config.lua',
 }
+
