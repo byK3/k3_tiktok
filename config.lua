@@ -14,8 +14,14 @@ Config.Framework = 'esx' -- esx or qbcore
 Config.SQL = 'mysql-async' -- oxmysql or mysql-async or ghmattimysql
 Config.Debug = true -- enable debug mode true/false (will print debug messages in console)
 
-
+-- COMMANDS --
 Config.Command = "tiktok"
+Config.databaseClearCommand = "cleardb" -- command to clear the database (only for admins)
+Config.Groups = { -- This groups will be able to use the command cleardb command
+    "admin",
+}
+
+-- REWARDS --
 Config.Rewards = { -- Example for rewards
     {type = "item", name = "bread", amount = 10},
     {type = "item", name = "water", amount = 10},
@@ -61,8 +67,10 @@ function serverNotify(source, message)
     end
 end
 
-function debug(msg)
+function debugger(message)
     if Config.Debug then
-        print(('^3[K3-TIKTOK]^0 %s'):format(msg))
+        local debugInfo = debug.getinfo(1)
+        local debugString = "[^3" .. debugInfo.short_src .. "^0] - [^2DEBUG^0] - [^3".. debugInfo.currentline .. "^0] : " .. message
+        print(debugString)
     end
 end
