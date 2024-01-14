@@ -6,7 +6,7 @@ description "K3 TIKTOK COMMAND"
 version '1.0.0'
 
 
-shared_script 'language.lua'
+shared_script {'config.lua', 'language.lua'}
 
 client_scripts {
     'client/*',
