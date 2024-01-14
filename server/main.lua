@@ -73,7 +73,7 @@ K3.Functions.RegisterServerCallback('k3:saveVehicle', function(source, cb, vehic
         if result then
             cb(true)
         else
-            debug ("[k3:saveVehicle] Error: Could not save vehicle!")
+            debugger ("[k3:saveVehicle] Error: Could not save vehicle!")
             cb(false)
         end
     end)
@@ -98,7 +98,7 @@ RegisterCommand(Config.Command, function(source, args, rawCommand)
                     for k,v in pairs(Config.Rewards) do
                         if v.type == "item" then
                             K3.Functions.AddItem(xPlayer.source, v.name, v.amount) 
-                            debug ("[COMMAND] "..xName.." got x"..v.amount.." "..v.name.." !")
+                            debugger ("[COMMAND] "..xName.." got x"..v.amount.." "..v.name.." !")
                             serverNotify(xPlayer.source, Translate('rewardItem', v.amount, v.name))           
                         elseif v.type == "weapon" then
                             K3.Functions.AddWeapon(xPlayer.source, v.name, v.amount)
@@ -122,18 +122,37 @@ RegisterCommand(Config.Command, function(source, args, rawCommand)
                     end
                     logToDiscord("TikTok Reward", "A player claimed his TikTok reward!", "green", "default", xPlayer)
                 else
-                    debug ("[COMMAND] Error: Unable to insert player into database! Indentifier: "..identifier)
+                    debugger ("[COMMAND] Error: Unable to insert player into database! Indentifier: "..identifier)
                 end
             end)
         end
     end)
 end)
 
-RegisterCommand("cleardb", function(source, args, rawCommand)
+local function isAdmin (group)
+    for k,v in pairs(Config.Groups) do
+        if v == group then
+            return true
+        end
+    end
+    return false
+end
+
+RegisterCommand(Config.databaseClearCommand, function(source, args, rawCommand)
     local xPlayer = K3.Functions.GetPlayer(source)
     local identifier = K3.Functions.GetIdentifier(source)
+    local xGroup = K3.Functions.GetPlayerGroup(source)
 
-    local query = "DELETE FROM `k3_tiktok` WHERE `player_identifier` = @identifier"
-    local params = {['@identifier'] = identifier}
-    DB.execute(query, params)
+    if not isAdmin (xGroup) then return end
+
+    local query = "DELETE FROM `k3_tiktok`"
+    DB.execute(query, {}, function(result)
+        if result then
+            debugger ("[COMMAND] Database cleared!")
+            serverNotify(xPlayer.source, "Database cleared!")
+            logToDiscord("TikTok Reward", "Database cleared", "red", "default", xPlayer)
+        else
+            debugger ("[COMMAND] Error: Unable to clear database!")
+        end
+    end)
 end)
