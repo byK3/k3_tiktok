@@ -10,6 +10,7 @@ shared_script 'language.lua'
 
 client_scripts {
     'client/*',
+    'config.lua',
 }
 
 server_scripts {
