@@ -61,12 +61,13 @@ K3.Functions.RegisterServerCallback('k3:saveVehicle', function(source, cb, vehic
     local xPlayer = K3.Functions.GetPlayer(source)
     local identifier = K3.Functions.GetIdentifier(source)
     
-    local query = "INSERT INTO "..Config.vehicleSQL.tableName.." ("..Config.vehicleSQL.ownerColumn..", "..Config.vehicleSQL.plateColumn..", `vehicle`, `type`) VALUES (@owner, @plate, @vehicle, @type)"
+    local query = "INSERT INTO "..Config.vehicleSQL.tableName.." ("..Config.vehicleSQL.ownerColumn..", "..Config.vehicleSQL.plateColumn..", `vehicle`, `type`, `stored`) VALUES (@owner, @plate, @vehicle, @type, @stored)"
     local params = {
         ['@owner'] = identifier,
         ['@plate'] = vehicleProps.plate,
         ['@vehicle'] = json.encode(vehicleProps),
-        ['@type'] = vehicleType
+        ['@type'] = vehicleType,
+        ['@stored'] = 1
     }
 
     DB.execute(query, params, function(result)
